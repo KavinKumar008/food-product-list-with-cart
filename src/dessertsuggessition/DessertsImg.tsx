@@ -16,6 +16,7 @@ export const dessertsImage = [
     fname: "Waffle",
     ingredients: "Waffle with Berries",
     cost: "$6.50",
+    total: "10",
   },
   {
     image: creme,
@@ -23,6 +24,7 @@ export const dessertsImage = [
     fname: "Creme Brulee",
     ingredients: "Vannila Bean Creme Brulee",
     cost: "$7.00",
+    total: "10",
   },
   {
     image: macaron,
@@ -30,6 +32,7 @@ export const dessertsImage = [
     fname: "Macaron",
     ingredients: "Macaron Mix of Five",
     cost: "$8.00",
+    total: "10",
   },
   {
     image: tiramisu,
@@ -37,6 +40,7 @@ export const dessertsImage = [
     fname: "Tiramisu",
     ingredients: "Classic Tiramisu",
     cost: "$5.50",
+    total: "10",
   },
   {
     image: baklava,
@@ -44,6 +48,7 @@ export const dessertsImage = [
     fname: "Baklava",
     ingredients: "Pistachio Baklava",
     cost: "$4.00",
+    total: "10",
   },
   {
     image: meringue,
@@ -51,6 +56,7 @@ export const dessertsImage = [
     fname: "Pie",
     ingredients: "Lemon Meringue Pie",
     cost: "$5.00",
+    total: "10",
   },
   {
     image: cake,
@@ -58,6 +64,7 @@ export const dessertsImage = [
     fname: "Cake",
     ingredients: "Red Velvet Cake",
     cost: "$4.50",
+    total: "10",
   },
   {
     image: brownie,
@@ -65,6 +72,7 @@ export const dessertsImage = [
     fname: "Brownie",
     ingredients: "Salted Caramel Brownie",
     cost: "$5.50",
+    total: "10",
   },
   {
     image: panna,
@@ -72,5 +80,6 @@ export const dessertsImage = [
     fname: "Panna Cotta",
     ingredients: "Vannila Panna Cotta",
     cost: "$6.50",
+    total: "10",
   },
 ];
