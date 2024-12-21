@@ -1,8 +1,25 @@
 import tick from "../assets/icon-order-confirmed.jpg";
 import { dessertsImage } from "../dessertsuggessition/DessertsImg";
 import * as Dialog from "@radix-ui/react-dialog";
+import { desert } from "../types/dessert";
 
-const DialogConfirm = ({ isDialogOpen, setIsDialogOpen }) => {
+const DialogConfirm = ({
+  isDialogOpen,
+  setIsDialogOpen,
+  selectedDessert,
+  setSelectedDessert,
+}: {
+  isDialogOpen: boolean;
+  selectedDessert: desert[];
+  setSelectedDessert: React.Dispatch<React.SetStateAction<any[]>>;
+}) => {
+  const handleDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedDessert([]);
+  };
+  const overallTotal = selectedDessert.reduce((total, num) => {
+    return total + (num.total || 0);
+  }, 0);
   return (
     <Dialog.Root open={isDialogOpen}>
       {/* <Dialog.Trigger asChild></Dialog.Trigger> */}
@@ -29,12 +46,12 @@ const DialogConfirm = ({ isDialogOpen, setIsDialogOpen }) => {
             </Dialog.Title>
             <Dialog.Description className="mb-5 mt-2.5 text-[15px] leading-normal text-mauve11"></Dialog.Description>
             <div className=" bg-yellow-50 p-6 rounded-lg mt-4">
-              {dessertsImage.map((item, ind) => (
+              {selectedDessert.map((item, ind) => (
                 <div
                   key={ind}
                   className="grid grid-cols-[1fr_auto] text-center p-2 border-b border-gray-200"
                 >
-                  {/* <div className="flex gap-4 justify-start items-center">
+                  <div className="flex gap-4 justify-start items-center">
                     <div className="flex justify-center items-center">
                       <img
                         src={item.image}
@@ -53,12 +70,12 @@ const DialogConfirm = ({ isDialogOpen, setIsDialogOpen }) => {
                   </div>
                   <div className="grid content-center place-content-end">
                     <p>{item.total}</p>
-                  </div> */}
+                  </div>
                 </div>
               ))}
               <div className="flex justify-between mt-6">
                 <p className="text-red-500 text-sm">Order Total</p>
-                <span className="font-bold text-2xl">$85.00</span>
+                <span className="font-bold text-2xl">${overallTotal}</span>
               </div>
             </div>
             <div className="flex justify-center mt-3 bg-orange-700 p-2 rounded-3xl cursor-pointer">
@@ -66,7 +83,7 @@ const DialogConfirm = ({ isDialogOpen, setIsDialogOpen }) => {
                 <button
                   type="button"
                   className="text-white border-none outline-none"
-                  onClick={() => setIsDialogOpen(false)}
+                  onClick={handleDialog}
                 >
                   Start New Order
                 </button>

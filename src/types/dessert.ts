@@ -4,6 +4,7 @@ export type desert ={
     fname: string,
     ingredients: string,
     cost: string,
-    total: string,
+    total: number,
+    count:number,
     isCompleted: boolean,
 } 

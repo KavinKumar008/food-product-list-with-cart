@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import illustration from "../assets/illustration-empty-cart.jpg";
 import DialogConfirm from "../dialog/DialogConfirm";
 import carbon from "../assets/icon-carbon-neutral.jpg";
 import { dessertsImage } from "../dessertsuggessition/DessertsImg";
 import remove from "../assets/icon-remove-item.jpg";
 import { desert } from "../types/dessert";
+import AddToCart from "../cart/AddToCart";
 
 const YourCart = ({
   selectedDessert,
@@ -14,7 +15,7 @@ const YourCart = ({
 }: {
   selectedDessert: desert[];
   selectedItem: number;
-  setSelectedItem: number;
+  setSelectedItem: React.Dispatch<React.SetStateAction<number>>;
   setSelectedDessert: React.Dispatch<React.SetStateAction<any[]>>;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -33,7 +34,14 @@ const YourCart = ({
     setSelectedDessert(filteredData);
     setSelectedItem(itemId);
   };
-  console.log(selectedDessert);
+
+  // console.log(selectedDessert);
+  const overallTotal = selectedDessert.reduce((total, num) => {
+    return total + (num.total || 0);
+  }, 0);
+
+  console.log(overallTotal);
+
   return (
     <main>
       {selectedDessertItem ? (
@@ -51,12 +59,14 @@ const YourCart = ({
                   <p className="font-semibold">
                     <h1>{item.fname}</h1>
                   </p>
-                  <div className="grid grid-cols-[auto_1fr_1fr] ">
-                    <span>1*</span>
+                  <div className="grid grid-cols-[auto_1fr_1fr] gap-3">
+                    <span className="text-orange-600">{item.count || 1}x</span>
                     <span className="font-[300] text-sm content-center place-content-center">
                       &#64;{item.cost}
                     </span>
-                    <span>total</span>
+                    <span className="text-red-400 font-medium">
+                      {item.total}
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -69,6 +79,10 @@ const YourCart = ({
                 </div>
               </div>
             ))}
+            <div className="flex justify-between items-center p-4">
+              <span>Order Total</span>
+              <span className="text-3xl font-bold">${overallTotal}</span>
+            </div>
             <div className="flex justify-center gap-2 bg-yellow-50 p-3 mt-4 rounded-xl">
               <img
                 src={carbon}
@@ -112,6 +126,13 @@ const YourCart = ({
       <DialogConfirm
         isDialogOpen={isDialogOpen}
         setIsDialogOpen={setIsDialogOpen}
+        selectedDessert={selectedDessert}
+        setSelectedDessert={setSelectedDessert}
+      />
+      <AddToCart
+        selectedDessert={selectedDessert}
+        setSelectedDessert={setSelectedDessert}
+        selectedItem={selectedItem}
       />
     </main>
   );
