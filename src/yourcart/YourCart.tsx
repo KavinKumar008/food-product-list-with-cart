@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import illustration from "../assets/illustration-empty-cart.jpg";
 import DialogConfirm from "../dialog/DialogConfirm";
 import carbon from "../assets/icon-carbon-neutral.jpg";
-import { dessertsImage } from "../dessertsuggessition/DessertsImg";
+// import { dessertsImage } from "../dessertsuggessition/DessertsImg";
 import remove from "../assets/icon-remove-item.jpg";
 import { desert } from "../types/dessert";
-import AddToCart from "../cart/AddToCart";
 
 const YourCart = ({
   selectedDessert,
@@ -32,7 +31,12 @@ const YourCart = ({
     // console.log(selectedItem);
     const filteredData = selectedDessert.filter((item) => item.id !== itemId);
     setSelectedDessert(filteredData);
-    setSelectedItem(itemId);
+    // Clear selectedItem if it matches the deleted item
+    if (selectedItem === itemId) {
+      setSelectedItem(0); // or null, based on your logic
+    }
+    console.log("Deleting item ID:", itemId);
+    console.log("Updated Cart:", filteredData);
   };
 
   // console.log(selectedDessert);
@@ -40,7 +44,12 @@ const YourCart = ({
     return total + (num.total || 0);
   }, 0);
 
-  console.log(overallTotal);
+  const defaultTotal = selectedDessert.reduce(
+    (total, num) => total + parseFloat(num.cost.replace(/[^0-9.]/g, "")),
+    0
+  );
+
+  console.log(defaultTotal);
 
   return (
     <main>
@@ -65,7 +74,10 @@ const YourCart = ({
                       &#64;{item.cost}
                     </span>
                     <span className="text-red-400 font-medium">
-                      {item.total}
+                      {item.total ||
+                        parseFloat(item.cost.replace(/[^0-9.]/g, "")).toFixed(
+                          2
+                        )}
                     </span>
                   </div>
                 </div>
@@ -81,7 +93,9 @@ const YourCart = ({
             ))}
             <div className="flex justify-between items-center p-4">
               <span>Order Total</span>
-              <span className="text-3xl font-bold">${overallTotal}</span>
+              <span className="text-3xl font-bold">
+                ${overallTotal > 0 ? overallTotal : defaultTotal.toFixed(2)}
+              </span>
             </div>
             <div className="flex justify-center gap-2 bg-yellow-50 p-3 mt-4 rounded-xl">
               <img
@@ -129,11 +143,11 @@ const YourCart = ({
         selectedDessert={selectedDessert}
         setSelectedDessert={setSelectedDessert}
       />
-      <AddToCart
+      {/* <AddToCart
         selectedDessert={selectedDessert}
         setSelectedDessert={setSelectedDessert}
         selectedItem={selectedItem}
-      />
+      /> */}
     </main>
   );
 };

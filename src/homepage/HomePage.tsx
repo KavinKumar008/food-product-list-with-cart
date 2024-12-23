@@ -21,7 +21,8 @@ const HomePage = () => {
       }
     });
   };
-  console.log(selectedDessert);
+  selectedDessert.some((dessert) => console.log(dessert.id));
+  console.log(selectedItem);
   return (
     <main className="p-8">
       <section className="">

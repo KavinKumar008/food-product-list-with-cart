@@ -2,38 +2,24 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa";
 import { useState } from "react";
-import { useEffect } from "react";
 import { desert } from "../types/dessert";
 // import increment from "../assets/icon-increment-quantity.jpg";
 // import decrement from "../assets/icon-decrement-quantity.jpg";
 
 const AddToCart = ({
-  selectedDessert = [],
+  selectedDessert,
   setSelectedDessert,
   selectedItem,
-  multiplyShow,
-  setMultiplyShow,
 }: {
   selectedDessert: desert[];
   setSelectedDessert: React.Dispatch<React.SetStateAction<any[]>>;
   selectedItem: number;
-  multiplyShow: number;
-  setMultiplyShow: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [count, setCount] = useState(1);
 
   const selectedDessertItem = selectedDessert.find(
     (dessert) => dessert.id === selectedItem
   );
-
-  // const grandTotal = selectedDessert.reduce((total, dessert) => {
-  //   if (!dessert.cost) return total;
-  //   // Extract numeric value from dessert.price string
-  //   const price = parseFloat(dessert.cost.replace(/[^0-9.]/g, ""));
-  //   return total + (dessert.count || 1) * Math.floor(price);
-  // }, 0);
-
-  // console.log(grandTotal);
 
   const handleIncrement = () => {
     setCount((prev) => prev + 1);
@@ -45,7 +31,7 @@ const AddToCart = ({
               count: (dessert.count || 1) + 1,
               total:
                 ((dessert.count || 1) + 1) *
-                parseFloat(dessert.cost.replace(/[^0-9.]/g, "")).toFixed(2),
+                parseFloat(dessert.cost.replace(/[^0-9.]/g, "")),
             }
           : dessert
       )
@@ -62,20 +48,20 @@ const AddToCart = ({
               count: Math.max((dessert.count || 1) - 1, 1),
               total:
                 Math.max((dessert.count || 1) - 1, 1) *
-                parseFloat(dessert.cost.replace(/[^0-9.]/g, "")).toFixed(2),
+                parseFloat(dessert.cost.replace(/[^0-9.]/g, "")),
             }
           : dessert
       )
     );
   };
 
-  const itemTotal =
-    selectedDessertItem &&
-    selectedDessertItem.count *
-      parseFloat(selectedDessertItem.cost.replace(/[^0-9.]/g, ""));
+  // const itemTotal =
+  //   selectedDessertItem &&
+  //   selectedDessertItem.count *
+  //     parseFloat(selectedDessertItem.cost.replace(/[^0-9.]/g, ""));
 
   console.log(selectedDessert);
-  console.log(itemTotal);
+  // console.log(itemTotal);
 
   return (
     <section>

@@ -1,5 +1,5 @@
 import tick from "../assets/icon-order-confirmed.jpg";
-import { dessertsImage } from "../dessertsuggessition/DessertsImg";
+// import { dessertsImage } from "../dessertsuggessition/DessertsImg";
 import * as Dialog from "@radix-ui/react-dialog";
 import { desert } from "../types/dessert";
 
@@ -20,12 +20,18 @@ const DialogConfirm = ({
   const overallTotal = selectedDessert.reduce((total, num) => {
     return total + (num.total || 0);
   }, 0);
+
+  const defaultTotal = selectedDessert.reduce(
+    (total, num) => total + parseFloat(num.cost.replace(/[^0-9.]/g, "")),
+    0
+  );
+  console.log(defaultTotal);
   return (
     <Dialog.Root open={isDialogOpen}>
       {/* <Dialog.Trigger asChild></Dialog.Trigger> */}
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-md bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow">
+        <Dialog.Overlay className="fixed inset-0 bg-blackA6 data-[state=open]:animate-overlayShow no-scrollbar" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 no-scrollbar max-h-auto w-[90vw] max-w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-md bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none data-[state=open]:animate-contentShow">
           <section className="">
             <Dialog.Title className="m-0 text-[17px] font-medium text-mauve12">
               <div className="flex flex-col gap-4">
@@ -69,13 +75,20 @@ const DialogConfirm = ({
                     </div>
                   </div>
                   <div className="grid content-center place-content-end">
-                    <p>{item.total}</p>
+                    <p>
+                      {item.total ||
+                        parseFloat(item.cost.replace(/[^0-9.]/g, "")).toFixed(
+                          2
+                        )}
+                    </p>
                   </div>
                 </div>
               ))}
               <div className="flex justify-between mt-6">
                 <p className="text-red-500 text-sm">Order Total</p>
-                <span className="font-bold text-2xl">${overallTotal}</span>
+                <span className="font-bold text-2xl">
+                  ${overallTotal > 0 ? overallTotal : defaultTotal.toFixed(2)}
+                </span>
               </div>
             </div>
             <div className="flex justify-center mt-3 bg-orange-700 p-2 rounded-3xl cursor-pointer">
